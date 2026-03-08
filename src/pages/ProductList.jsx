@@ -1,22 +1,24 @@
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import ProductForm from '../components/ProductForm';
-// Supongamos que tu data inicial está en un archivo separado
 import { initialProducts } from '../data/products'; 
 
 const ProductList = () => {
-  // 1. ESTADOS
-  const [products, setProducts] = useState(initialProducts);
+  // 1. ESTADOS (Revisar que estén los TRES)
+  const [products, setProducts] = useState(() => {
+    const saved = localStorage.getItem('productos_tienda');
+    return saved ? JSON.parse(saved) : initialProducts;
+  });
+  
+  // Faltaban estos dos abajo:
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [productToEdit, setProductToEdit] = useState(null);
 
   // 2. FUNCIONES CRUD
   const handleSaveProduct = (product) => {
     if (product.id) {
-      // Editar
       setProducts(products.map(p => p.id === product.id ? product : p));
     } else {
-      // Crear (usamos Date.now() como ID temporal)
       const newProduct = { ...product, id: Date.now() };
       setProducts([...products, newProduct]);
     }
@@ -35,16 +37,10 @@ const ProductList = () => {
     setIsFormOpen(true);
   };
 
+  // PERSISTENCIA
   useEffect(() => {
-  const savedProducts = localStorage.getItem('productos_tienda');
-  if (savedProducts) {
-    setProducts(JSON.parse(savedProducts));
-  }
-}, []);
-// useEffect para GUARDAR los productos cada vez que cambien (Commit 8df1916)
-useEffect(() => {
-  localStorage.setItem('productos_tienda', JSON.stringify(products));
-}, [products]);
+    localStorage.setItem('productos_tienda', JSON.stringify(products));
+  }, [products]);
 
   // 3. RENDERIZADO
   return (
@@ -53,13 +49,12 @@ useEffect(() => {
         <h2>Listado de Productos</h2>
         <button 
           onClick={() => setIsFormOpen(true)}
-          style={{ background: '#003366', color: 'white', padding: '10px 20px', borderRadius: '5px' }}
+          style={{ background: '#003366', color: 'white', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}
         >
           + Agregar Producto
         </button>
       </div>
 
-      {/* Si el formulario está abierto, se muestra arriba */}
       {isFormOpen && (
         <ProductForm 
           onSave={handleSaveProduct} 
