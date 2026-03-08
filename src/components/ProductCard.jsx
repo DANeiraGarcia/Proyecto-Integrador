@@ -2,19 +2,41 @@ import { useState } from 'react';
 import styles from '../styles/ProductCard.module.css';
 import { formatCOP } from '../utils/formatCOP';
 
-const ProductCard = ({ product }) => {
-  const [likes, setLikes] = useState(0);
+// 1. Agregamos onEdit y onDelete a las props
+const ProductCard = ({ product, onEdit, onDelete }) => {
+  // 2. Cambiamos el contador por un booleano (Like Switch)
+  const [isLiked, setIsLiked] = useState(false);
+
+  const toggleLike = () => {
+    setIsLiked(!isLiked);
+  };
 
   return (
     <div className={styles.card}>
-      <img src={product.image} alt={product.name} className={styles.image} />
-      <h3>{product.name}</h3>
-      <p>{product.category}</p>
-      <p><strong>{formatCOP(product.price)}</strong></p>
+      <img src={product.imagen} alt={product.nombre} className={styles.image} />
+      <h3>{product.nombre}</h3>
+      <p>{product.categoria}</p>
+      <p><strong>{formatCOP(product.precio)}</strong></p>
       
-      <button className={styles.likeButton} onClick={() => setLikes(likes + 1)}>
-        ❤️ {likes}
-      </button>
+      {/* 3. Mostramos el Stock (Requerimiento Semana 04) */}
+      <p className={styles.stock}>Stock: {product.stock} unidades</p>
+      
+      <div className={styles.cardActions}>
+        <button 
+          className={`${styles.likeButton} ${isLiked ? styles.active : ''}`} 
+          onClick={toggleLike}
+        >
+          {isLiked ? '❤️' : '🤍'}
+        </button>
+
+        {/* 4. Nuevos botones de mantenimiento (CRUD) */}
+        <button className={styles.editButton} onClick={onEdit}>
+          ✏️ Editar
+        </button>
+        <button className={styles.deleteButton} onClick={onDelete}>
+          🗑️ Borrar
+        </button>
+      </div>
     </div>
   );
 };
