@@ -5,7 +5,8 @@ export const initialProducts = [
     precio: 350000,
     categoria: "Periféricos",
     imagen: "https://images.pexels.com/photos/1787220/pexels-photo-1787220.jpeg?q=80&w=2070&auto=format&fit=crop",
-    stock: 15
+    stock: 15,
+    rating: 4.8
   },
   {
     id: 2,
@@ -13,7 +14,8 @@ export const initialProducts = [
     precio: 280000,
     categoria: "Periféricos",
     imagen: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?q=80&w=2070&auto=format&fit=crop",
-    stock: 8
+    stock: 8,
+    rating: 4.0
   },
   {
     id: 3,
@@ -21,6 +23,7 @@ export const initialProducts = [
     precio: 650000,
     categoria: "Monitores",
     imagen: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=2070&auto=format&fit=crop",
-    stock: 5
+    stock: 5,
+    rating: 4.3
   }
 ]
