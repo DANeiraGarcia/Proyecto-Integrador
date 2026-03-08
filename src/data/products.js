@@ -1,29 +1,26 @@
-export const products = [
+export const initialProducts = [
   {
     id: 1,
-    name: "Webcam Logitech C920",
-    price: 350000,
-    category: "Periféricos",
-    stock: 10,
-    image: "https://picsum.photos/id/20/400/300",
-    description: "Cámara web Full HD 1080p con enfoque automático y corrección de luz."
+    nombre: "Webcam Logitech C920",
+    precio: 350000,
+    categoria: "Periféricos",
+    imagen: "https://images.pexels.com/photos/1787220/pexels-photo-1787220.jpeg?q=80&w=2070&auto=format&fit=crop",
+    stock: 15
   },
   {
     id: 2,
-    name: "Teclado Mecánico Keychron K2",
-    price: 480000,
-    category: "Periféricos",
-    stock: 5,
-    image: "https://picsum.photos/id/160/400/300",
-    description: "Teclado inalámbrico con switches mecánicos y retroiluminación."
+    nombre: "Teclado Mecánico RGB",
+    precio: 280000,
+    categoria: "Periféricos",
+    imagen: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?q=80&w=2070&auto=format&fit=crop",
+    stock: 8
   },
   {
     id: 3,
-    name: "Monitor Gamer 27 pulgadas",
-    price: 1200000,
-    category: "Monitores",
-    stock: 8,
-    image: "https://picsum.photos/id/201/400/300",
-    description: "Monitor con tasa de refresco de 144Hz y resolución QHD."
+    nombre: "Monitor 24' Full HD",
+    precio: 650000,
+    categoria: "Monitores",
+    imagen: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=2070&auto=format&fit=crop",
+    stock: 5
   }
-];
+]
