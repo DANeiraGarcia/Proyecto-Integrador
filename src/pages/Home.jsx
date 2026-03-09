@@ -4,28 +4,30 @@ import ProductCard from '../components/ProductCard';
 import ProductDetailsModal from '../components/ProductDetailsModal';
 import styles from '../styles/Home.module.css';
 
-const Home = () => {
+// Recibimos onCategoryClick desde App.jsx para la navegación
+const Home = ({ onCategoryClick }) => {
   const products = getStoredProducts();
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // 1. Extraemos las categorías únicas
+  // 1. Extraemos las categorías únicas (ej: Gaming, Periféricos, Hardware)
   const categories = [...new Set(products.map(p => p.categoria))];
 
-  // 2. Función para obtener productos por categoría ordenados por Rating
+  // 2. Función para obtener productos destacados por categoría (Top 4 por Rating)
   const getProductsByCategory = (cat) => {
     return products
       .filter(p => p.categoria === cat)
-      .sort((a, b) => b.rating - a.rating) // Los mejores primero
-      .slice(0, 4); // Mostramos solo los 4 mejores en el Home
+      .sort((a, b) => b.rating - a.rating) // Ordenamos: los mejores primero
+      .slice(0, 4); // Solo mostramos los 4 más destacados en el Home
   };
 
   return (
     <div className={styles.homeContainer}>
       <header className={styles.hero}>
-        <h1>Repuestos de Alta Calidad</h1>
-        <p>Los mejores calificados por la comunidad AME</p>
+        <h1>Tecnología de Vanguardia</h1>
+        <p>Los gadgets y componentes mejor calificados por expertos</p>
       </header>
 
+      {/* Modal que se dispara al hacer clic en ver detalles de cualquier tarjeta */}
       {selectedProduct && (
         <ProductDetailsModal 
           product={selectedProduct} 
@@ -37,7 +39,13 @@ const Home = () => {
         <section key={category} className={styles.categorySection}>
           <div className={styles.categoryHeader}>
             <h2>{category}</h2>
-            <button className={styles.viewMoreBtn}>Ver todo {category}</button>
+            {/* Este botón ahora activa la navegación a la página de categoría */}
+            <button 
+              className={styles.viewMoreBtn}
+              onClick={() => onCategoryClick(category)}
+            >
+              Ver todo en {category}
+            </button>
           </div>
           
           <div className={styles.productsGrid}>
@@ -46,7 +54,7 @@ const Home = () => {
                 key={product.id} 
                 product={product}
                 onShowDetails={() => setSelectedProduct(product)}
-                // En el Home solemos ocultar Editar/Borrar para usuarios
+                // No pasamos onEdit ni onDelete aquí para mantener el Home limpio
               />
             ))}
           </div>

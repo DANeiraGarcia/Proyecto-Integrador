@@ -1,31 +1,40 @@
-import { useState, useEffect } from 'react'; // <-- AGREGAR useEffect aquí
+import { useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import ProductList from './pages/ProductList';
 import Cart from './pages/Cart';
+import CategoryProducts from './pages/CategoryProducts'; // <-- IMPORTAR
 import './App.css';
 
 function App() {
-  // --- MODIFICAR ESTADO ---
-  // Cambiamos el valor fijo 'products' por una función que revisa el disco
-  const [page, setPage] = useState(() => {
-    const savedPage = localStorage.getItem('current_page');
-    return savedPage ? savedPage : 'products'; 
-  });
+  const [page, setPage] = useState('home');
+  // Nuevo estado para saber qué categoría mostrar
+  const [activeCategory, setActiveCategory] = useState(null);
 
-  
-  // Cada vez que cambies de página (clic en el nav), se guarda el nombre
-  useEffect(() => {
-    localStorage.setItem('current_page', page);
-  }, [page]);
+  // Función para navegar a una categoría específica
+  const navigateToCategory = (cat) => {
+    setActiveCategory(cat);
+    setPage('category');
+  };
 
   const renderPage = () => {
     switch (page) {
-      case 'home': return <Home />;
-      case 'products': return <ProductList />;
-      case 'cart': return <Cart />;
-      default: return <Home />;
+      case 'home':
+        return <Home onCategoryClick={navigateToCategory} />;
+      case 'category':
+        return (
+          <CategoryProducts 
+            category={activeCategory} 
+            onBack={() => setPage('home')} 
+          />
+        );
+      case 'products':
+        return <ProductList />;
+      case 'cart':
+        return <Cart />;
+      default:
+        return <Home onCategoryClick={navigateToCategory} />;
     }
   };
 
