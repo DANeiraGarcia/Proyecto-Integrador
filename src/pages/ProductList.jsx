@@ -1,25 +1,28 @@
 import { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import ProductForm from '../components/ProductForm';
-import { initialProducts } from '../data/products'; 
+import ProductDetailsModal from '../components/ProductDetailsModal';
+// Importamos la lógica centralizada de almacenamiento
+import { getStoredProducts, saveProducts } from '../utils/productsStorage';
 
 const ProductList = () => {
-  // 1. ESTADOS (Revisar que estén los TRES)
-  const [products, setProducts] = useState(() => {
-    const saved = localStorage.getItem('productos_tienda');
-    return saved ? JSON.parse(saved) : initialProducts;
-  });
+  // 1. ESTADOS
+  // Usamos la función del utils para cargar la data (incluye normalización de rating)
+  const [products, setProducts] = useState(() => getStoredProducts());
   
-  // Faltaban estos dos abajo:
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [productToEdit, setProductToEdit] = useState(null);
+  
+  // NUEVO: Estado para el producto que se verá en el detalle (Modal)
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   // 2. FUNCIONES CRUD
   const handleSaveProduct = (product) => {
     if (product.id) {
       setProducts(products.map(p => p.id === product.id ? product : p));
     } else {
-      const newProduct = { ...product, id: Date.now() };
+      // Al crear, garantizamos un rating por defecto (0) si no viene uno
+      const newProduct = { ...product, id: Date.now(), rating: product.rating || 0 };
       setProducts([...products, newProduct]);
     }
     setIsFormOpen(false);
@@ -37,9 +40,9 @@ const ProductList = () => {
     setIsFormOpen(true);
   };
 
-  // PERSISTENCIA
+  // PERSISTENCIA: Usamos la función centralizada saveProducts
   useEffect(() => {
-    localStorage.setItem('productos_tienda', JSON.stringify(products));
+    saveProducts(products);
   }, [products]);
 
   // 3. RENDERIZADO
@@ -49,12 +52,21 @@ const ProductList = () => {
         <h2>Listado de Productos</h2>
         <button 
           onClick={() => setIsFormOpen(true)}
-          style={{ background: '#003366', color: 'white', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}
+          style={{ background: '#003366', color: 'white', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', border: 'none' }}
         >
           + Agregar Producto
         </button>
       </div>
 
+      {/* MODAL DE DETALLE: Solo se muestra si selectedProduct no es null */}
+      {selectedProduct && (
+        <ProductDetailsModal 
+          product={selectedProduct} 
+          onClose={() => setSelectedProduct(null)} 
+        />
+      )}
+
+      {/* FORMULARIO DE EDICIÓN/CREACIÓN */}
       {isFormOpen && (
         <ProductForm 
           onSave={handleSaveProduct} 
@@ -70,6 +82,8 @@ const ProductList = () => {
             product={product} 
             onEdit={() => handleEditClick(product)}
             onDelete={() => handleDeleteProduct(product.id)}
+            // PASAMOS LA FUNCIÓN AL HIJO PARA ABRIR EL MODAL
+            onShowDetails={() => setSelectedProduct(product)}
           />
         ))}
       </div>
