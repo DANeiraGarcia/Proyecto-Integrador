@@ -3,7 +3,7 @@ import styles from '../styles/ProductCard.module.css';
 import { formatCOP } from '../utils/formatCOP';
 
 // 1. Agregamos onEdit y onDelete a las props
-const ProductCard = ({ product, onEdit, onDelete }) => {
+const ProductCard = ({ product, onEdit, onDelete,onShowDetails }) => {
   // 2. Cambiamos el contador por un booleano (Like Switch)
   const [isLiked, setIsLiked] = useState(false);
 
@@ -13,15 +13,32 @@ const ProductCard = ({ product, onEdit, onDelete }) => {
 
   return (
     <div className={styles.card}>
-      <img src={product.imagen} alt={product.nombre} className={styles.image} />
+      <img 
+      src={product.imagen} 
+      alt={product.nombre} 
+      className={styles.image} 
+      onClick={onShowDetails} // Clic en imagen abre modal
+        style={{ cursor: 'pointer' }}
+      />
+      
       <h3>{product.nombre}</h3>
       <p>{product.categoria}</p>
+      <div className={styles.rating}>
+        {'⭐'.repeat(Math.floor(product.rating || 0))} 
+        <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#444' }}>
+    {product.rating ? `${product.rating}/5` : 'Sin calificación'}
+  </span>
+      </div>
+      {/* ------------------------------------ */}
       <p><strong>{formatCOP(product.precio)}</strong></p>
       
-      {/* 3. Mostramos el Stock (Requerimiento Semana 04) */}
+      
       <p className={styles.stock}>Stock: {product.stock} unidades</p>
       
       <div className={styles.cardActions}>
+        <button className={styles.detailsButton} onClick={onShowDetails}>
+        🔍 Ver Detalles
+      </button>
         <button 
           className={`${styles.likeButton} ${isLiked ? styles.active : ''}`} 
           onClick={toggleLike}
