@@ -1,16 +1,37 @@
-# React + Vite
+🛠️ Sistema de Ventas - Proyecto Integrador (Semana 05)
+Este proyecto es una plataforma de E-commerce desarrollada en React + Vite, enfocada en la gestión y visualización de productos tecnológicos (Gaming, Hardware y Periféricos).
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🚀 Funcionalidades Implementadas (Semana 05)
+En esta fase, se transformó la estructura plana del sitio en una experiencia de usuario dinámica y organizada por categorías.
 
-Currently, two official plugins are available:
+💎 Experiencia de Usuario (UX)
+Rating Dinámico: Visualización de valoraciones (ej. 4.8/5) con estrellas en cada producto.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Detalle en Modal: Implementación de ProductDetailsModal para ver la ficha técnica sin perder el contexto de navegación.
 
-## React Compiler
+Home Categorizado: La página principal agrupa automáticamente los productos por su categoría, mostrando los 4 mejores (ordenados por rating).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Filtros Avanzados: Nueva página CategoryProducts con buscador en tiempo real por nombre de producto.
 
-## Expanding the ESLint configuration
+⚙️ Arquitectura de Software
+Normalización de Datos: Se implementó una capa de control de calidad que asegura que todo producto tenga rating, stock y precio válido.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Refactorización (Storage Utils): Extracción de la lógica de persistencia a src/utils/productsStorage.js para centralizar el manejo de localStorage.
+
+Navegación por Estado: Sistema de navegación personalizado en App.jsx para gestionar vistas de Home, Categorías y CRUD.
+
+🛠️ Tecnologías Utilizadas
+React 18: Biblioteca principal para la interfaz.
+
+Vite: Herramienta de construcción rápida.
+
+CSS Modules: Estilos encapsulados para evitar colisiones.
+
+LocalStorage API: Persistencia de datos local.
+
+📦 Instalación y Uso
+Clonar el repositorio.
+
+Ejecutar npm install para instalar dependencias.
+
+Iniciar el entorno de desarrollo con npm run dev.
