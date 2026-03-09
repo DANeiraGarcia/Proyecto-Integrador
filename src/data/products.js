@@ -3,7 +3,7 @@ export const initialProducts = [
     id: 1,
     nombre: "Webcam Logitech C920",
     precio: 350000,
-    categoria: "Periféricos",
+    categoria: "Accesorios",
     imagen: "https://images.pexels.com/photos/1787220/pexels-photo-1787220.jpeg?q=80&w=2070&auto=format&fit=crop",
     stock: 15,
     rating: 4.8
@@ -12,7 +12,7 @@ export const initialProducts = [
     id: 2,
     nombre: "Teclado Mecánico RGB",
     precio: 280000,
-    categoria: "Periféricos",
+    categoria: "Gaming",
     imagen: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?q=80&w=2070&auto=format&fit=crop",
     stock: 8,
     rating: 4.0
