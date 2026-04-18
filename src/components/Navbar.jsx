@@ -1,22 +1,29 @@
+import { Link, NavLink } from "react-router-dom";
 import styles from "../styles/Navbar.module.css";
 
-const Navbar = ({ setPage, cartCount }) => {
+const Navbar = ({ cartCount }) => {
   return (
     <nav className={styles.nav}>
       <div className={styles.logo}>
-        <span onClick={() => setPage("home")} className={styles.link}>
+        <Link to="/" className={styles.link}>
           MI TIENDA TECH
-        </span>
+        </Link>
       </div>
       <ul className={styles.menu}>
-        <li onClick={() => setPage("home")} className={styles.link}>
-          Inicio
+        <li>
+          <NavLink to="/" className={styles.link}>
+            Inicio
+          </NavLink>
         </li>
-        <li onClick={() => setPage("products")} className={styles.link}>
-          Productos
+        <li>
+          <NavLink to="/products" className={styles.link}>
+            Productos
+          </NavLink>
         </li>
-        <li onClick={() => setPage("cart")} className={styles.link}>
-          Carrito ({cartCount || 0})
+        <li>
+          <NavLink to="/cart" className={styles.link}>
+            Carrito ({cartCount || 0})
+          </NavLink>
         </li>
       </ul>
       <button className={styles.auth}>Ingresar</button>
