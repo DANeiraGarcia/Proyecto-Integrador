@@ -22,3 +22,14 @@ export const addOrder = (order) => {
   saveOrders(updatedOrders);
   return updatedOrders;
 };
+
+export const getOrderById = (orderId) => {
+  const orders = getStoredOrders();
+  return orders.find((order) => order.id === orderId) || null;
+};
+
+export const getLatestOrder = () => {
+  const orders = getStoredOrders();
+  return orders[0] || null;
+};
+
