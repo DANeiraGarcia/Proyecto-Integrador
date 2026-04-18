@@ -11,6 +11,9 @@ import CategoryProducts from "./pages/CategoryProducts"; // <-- IMPORTAR
 import UserProfile from "./pages/UserProfile";
 import UserOrders from "./pages/UserOrders";
 import OrderDetail from "./pages/OrderDetail";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { getStoredCart, saveCart } from "./utils/cartStorage";
 import { addOrder, getLatestOrder } from "./utils/ordersStorage";
 import "./App.css";
@@ -142,34 +145,49 @@ function App() {
           <Route
             path="/checkout"
             element={
-              <Checkout
-                cartItems={cartItems}
-                onBackToCart={() => navigate("/cart")}
-                onConfirmOrder={handleConfirmOrder}
-              />
+              <ProtectedRoute>
+                <Checkout
+                  cartItems={cartItems}
+                  onBackToCart={() => navigate("/cart")}
+                  onConfirmOrder={handleConfirmOrder}
+                />
+              </ProtectedRoute>
             }
           />
           <Route
             path="/order-confirmation"
             element={
-              <OrderConfirmation
-                order={latestOrder}
-                onGoHome={() => navigate("/")}
-                onGoProducts={() => navigate("/products")}
-                onGoAccount={() => navigate("/account")}
-              />
+              <ProtectedRoute>
+                <OrderConfirmation
+                  order={latestOrder}
+                  onGoHome={() => navigate("/")}
+                  onGoProducts={() => navigate("/products")}
+                  onGoAccount={() => navigate("/account")}
+                />
+              </ProtectedRoute>
             }
           />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route
             path="/account"
             element={
-              <>
-                <UserProfile />
-                <UserOrders />
-              </>
+              <ProtectedRoute>
+                <>
+                  <UserProfile />
+                  <UserOrders />
+                </>
+              </ProtectedRoute>
             }
           />
-          <Route path="/account/orders/:orderId" element={<OrderDetail />} />
+          <Route
+            path="/account/orders/:orderId"
+            element={
+              <ProtectedRoute>
+                <OrderDetail />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
