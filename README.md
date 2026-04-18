@@ -35,3 +35,30 @@ Clonar el repositorio.
 Ejecutar npm install para instalar dependencias.
 
 Iniciar el entorno de desarrollo con npm run dev.
+
+## Semana 08 - Navegacion por Rutas (React Router)
+
+En esta fase se migro la navegacion basada en estado a rutas reales con `react-router-dom`.
+
+### Rutas principales
+
+- `/` -> Home
+- `/products` -> Listado de productos (CRUD)
+- `/category/:categoryName` -> Productos por categoria
+- `/cart` -> Carrito de compras
+- `/checkout` -> Formulario de checkout
+- `/order-confirmation` -> Confirmacion final del pedido
+
+### Flujo de compra completo
+
+1. El usuario agrega productos al carrito.
+2. Entra a `/cart` y ajusta cantidades o elimina productos.
+3. Presiona **Proceder al checkout** y navega a `/checkout`.
+4. Completa datos de compra, selecciona envio y metodo de pago.
+5. Confirma el pedido y navega a `/order-confirmation`.
+6. El carrito se vacia automaticamente y la orden queda guardada en `localStorage`.
+
+### Persistencia
+
+- `carrito_tienda`: conserva el carrito al recargar.
+- `ordenes_tienda`: almacena pedidos confirmados.
