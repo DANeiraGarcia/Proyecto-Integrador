@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 import { formatCOP } from "../utils/formatCOP";
+import { getLatestOrder } from "../utils/ordersStorage";
 
 const SHIPPING_LABELS = {
   estandar: "Envío estándar",
@@ -12,8 +14,11 @@ const PAYMENT_LABELS = {
   contraentrega: "Pago contraentrega",
 };
 
-const OrderConfirmation = ({ order, onGoHome, onGoProducts }) => {
-  if (!order) {
+const OrderConfirmation = ({ order, onGoHome, onGoProducts, onGoAccount }) => {
+  const navigate = useNavigate();
+  const displayedOrder = order || getLatestOrder();
+
+  if (!displayedOrder) {
     return (
       <div style={{ padding: "2rem" }}>
         <h2>Pedido no disponible</h2>
@@ -51,24 +56,27 @@ const OrderConfirmation = ({ order, onGoHome, onGoProducts }) => {
         }}
       >
         <p style={{ margin: "0.2rem 0" }}>
-          <strong>Número de pedido:</strong> {order.id}
+          <strong>Número de pedido:</strong> {displayedOrder.id}
         </p>
         <p style={{ margin: "0.2rem 0" }}>
-          <strong>Fecha:</strong> {new Date(order.createdAt).toLocaleString()}
+          <strong>Fecha:</strong>{" "}
+          {new Date(displayedOrder.createdAt).toLocaleString()}
         </p>
         <p style={{ margin: "0.2rem 0" }}>
-          <strong>Cliente:</strong> {order.customer.fullName}
+          <strong>Cliente:</strong> {displayedOrder.customer.fullName}
         </p>
         <p style={{ margin: "0.2rem 0" }}>
-          <strong>Correo:</strong> {order.customer.email}
+          <strong>Correo:</strong> {displayedOrder.customer.email}
         </p>
         <p style={{ margin: "0.2rem 0" }}>
           <strong>Envío:</strong>{" "}
-          {SHIPPING_LABELS[order.shippingMethod] || order.shippingMethod}
+          {SHIPPING_LABELS[displayedOrder.shippingMethod] ||
+            displayedOrder.shippingMethod}
         </p>
         <p style={{ margin: "0.2rem 0" }}>
           <strong>Pago:</strong>{" "}
-          {PAYMENT_LABELS[order.paymentMethod] || order.paymentMethod}
+          {PAYMENT_LABELS[displayedOrder.paymentMethod] ||
+            displayedOrder.paymentMethod}
         </p>
       </div>
 
@@ -82,7 +90,7 @@ const OrderConfirmation = ({ order, onGoHome, onGoProducts }) => {
         }}
       >
         <h3 style={{ marginTop: 0 }}>Productos</h3>
-        {order.items.map((item) => (
+        {displayedOrder.items.map((item) => (
           <div
             key={item.product.id}
             style={{
@@ -105,7 +113,7 @@ const OrderConfirmation = ({ order, onGoHome, onGoProducts }) => {
         ))}
 
         <p style={{ marginTop: "1rem" }}>
-          <strong>Total pagado: {formatCOP(order.total)}</strong>
+          <strong>Total pagado: {formatCOP(displayedOrder.total)}</strong>
         </p>
       </div>
 
@@ -142,6 +150,19 @@ const OrderConfirmation = ({ order, onGoHome, onGoProducts }) => {
           }}
         >
           Seguir comprando
+        </button>
+        <button
+          onClick={() => (onGoAccount ? onGoAccount() : navigate("/account"))}
+          style={{
+            background: "#444",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            padding: "10px 14px",
+            cursor: "pointer",
+          }}
+        >
+          Ver mis compras
         </button>
       </div>
     </div>

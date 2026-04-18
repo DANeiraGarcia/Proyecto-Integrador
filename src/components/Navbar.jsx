@@ -25,8 +25,15 @@ const Navbar = ({ cartCount }) => {
             Carrito ({cartCount || 0})
           </NavLink>
         </li>
+        <li>
+          <NavLink to="/account" className={styles.link}>
+            Mi cuenta
+          </NavLink>
+        </li>
       </ul>
-      <button className={styles.auth}>Ingresar</button>
+      <NavLink to="/account" className={styles.auth}>
+        Mi cuenta
+      </NavLink>
     </nav>
   );
 };

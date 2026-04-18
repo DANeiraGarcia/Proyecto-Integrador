@@ -8,14 +8,17 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import CategoryProducts from "./pages/CategoryProducts"; // <-- IMPORTAR
+import UserProfile from "./pages/UserProfile";
+import UserOrders from "./pages/UserOrders";
+import OrderDetail from "./pages/OrderDetail";
 import { getStoredCart, saveCart } from "./utils/cartStorage";
-import { addOrder } from "./utils/ordersStorage";
+import { addOrder, getLatestOrder } from "./utils/ordersStorage";
 import "./App.css";
 
 function App() {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState(() => getStoredCart());
-  const [latestOrder, setLatestOrder] = useState(null);
+  const [latestOrder, setLatestOrder] = useState(() => getLatestOrder());
 
   useEffect(() => {
     saveCart(cartItems);
@@ -153,9 +156,20 @@ function App() {
                 order={latestOrder}
                 onGoHome={() => navigate("/")}
                 onGoProducts={() => navigate("/products")}
+                onGoAccount={() => navigate("/account")}
               />
             }
           />
+          <Route
+            path="/account"
+            element={
+              <>
+                <UserProfile />
+                <UserOrders />
+              </>
+            }
+          />
+          <Route path="/account/orders/:orderId" element={<OrderDetail />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
