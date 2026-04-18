@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { formatCOP } from "../utils/formatCOP";
 import { getOrderById } from "../utils/ordersStorage";
+import styles from "../styles/OrderDetail.module.css";
 
 const SHIPPING_LABELS = {
   estandar: "Envío estándar",
@@ -20,21 +21,10 @@ const OrderDetail = () => {
 
   if (!order) {
     return (
-      <div style={{ padding: "2rem" }}>
+      <div className={styles.container}>
         <h2>Detalle no disponible</h2>
         <p>No encontramos una orden con ese identificador.</p>
-        <Link
-          to="/account"
-          style={{
-            display: "inline-block",
-            marginTop: "1rem",
-            background: "#003366",
-            color: "#fff",
-            textDecoration: "none",
-            borderRadius: "6px",
-            padding: "10px 14px",
-          }}
-        >
+        <Link to="/account" className={styles.back}>
           Volver a mi cuenta
         </Link>
       </div>
@@ -42,65 +32,40 @@ const OrderDetail = () => {
   }
 
   return (
-    <div style={{ padding: "2rem", display: "grid", gap: "1rem" }}>
+    <div className={styles.container}>
       <div>
-        <p style={{ margin: 0, opacity: 0.75 }}>Pedido</p>
-        <h2 style={{ margin: "0.25rem 0" }}>{order.id}</h2>
-        <p style={{ margin: 0 }}>
+        <p className={styles.muted}>Pedido</p>
+        <h2 className={styles.title}>{order.id}</h2>
+        <p className={styles.muted}>
           {new Date(order.createdAt).toLocaleString()}
         </p>
       </div>
 
-      <section
-        style={{
-          background: "#fff",
-          border: "1px solid #ddd",
-          borderRadius: "12px",
-          padding: "1rem",
-          display: "grid",
-          gap: "0.35rem",
-        }}
-      >
-        <p style={{ margin: 0 }}>
+      <section className={`${styles.section} ${styles.customer}`}>
+        <p>
           <strong>Cliente:</strong> {order.customer.fullName}
         </p>
-        <p style={{ margin: 0 }}>
+        <p>
           <strong>Email:</strong> {order.customer.email}
         </p>
-        <p style={{ margin: 0 }}>
+        <p>
           <strong>Ciudad:</strong> {order.customer.city}
         </p>
-        <p style={{ margin: 0 }}>
+        <p>
           <strong>Envío:</strong>{" "}
           {SHIPPING_LABELS[order.shippingMethod] || order.shippingMethod}
         </p>
-        <p style={{ margin: 0 }}>
+        <p>
           <strong>Pago:</strong>{" "}
           {PAYMENT_LABELS[order.paymentMethod] || order.paymentMethod}
         </p>
       </section>
 
-      <section
-        style={{
-          background: "#fff",
-          border: "1px solid #ddd",
-          borderRadius: "12px",
-          padding: "1rem",
-        }}
-      >
+      <section className={styles.section}>
         <h3 style={{ marginTop: 0 }}>Productos</h3>
-        <div style={{ display: "grid", gap: "0.75rem" }}>
+        <div className={styles.items}>
           {order.items.map((item) => (
-            <div
-              key={item.product.id}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                gap: "1rem",
-                borderBottom: "1px solid #f0f0f0",
-                paddingBottom: "0.5rem",
-              }}
-            >
+            <div key={item.product.id} className={styles.row}>
               <span>
                 {item.product.nombre} x {item.quantity}
               </span>
@@ -113,28 +78,20 @@ const OrderDetail = () => {
           ))}
         </div>
 
-        <p style={{ marginTop: "1rem" }}>
-          <strong>Subtotal:</strong> {formatCOP(order.subtotal)}
-        </p>
-        <p style={{ margin: "0.35rem 0" }}>
-          <strong>Envío:</strong> {formatCOP(order.shippingCost)}
-        </p>
-        <p style={{ margin: "0.35rem 0 0" }}>
-          <strong>Total:</strong> {formatCOP(order.total)}
-        </p>
+        <div className={styles.summary}>
+          <p style={{ marginTop: "1rem" }}>
+            <strong>Subtotal:</strong> {formatCOP(order.subtotal)}
+          </p>
+          <p>
+            <strong>Envío:</strong> {formatCOP(order.shippingCost)}
+          </p>
+          <p>
+            <strong>Total:</strong> {formatCOP(order.total)}
+          </p>
+        </div>
       </section>
 
-      <Link
-        to="/account"
-        style={{
-          width: "fit-content",
-          background: "#0f7b0f",
-          color: "#fff",
-          textDecoration: "none",
-          borderRadius: "6px",
-          padding: "10px 14px",
-        }}
-      >
+      <Link to="/account" className={styles.back}>
         Volver a mis compras
       </Link>
     </div>

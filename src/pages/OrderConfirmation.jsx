@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { formatCOP } from "../utils/formatCOP";
 import { getLatestOrder } from "../utils/ordersStorage";
+import styles from "../styles/OrderConfirmation.module.css";
 
 const SHIPPING_LABELS = {
   estandar: "Envío estándar",
@@ -20,20 +21,13 @@ const OrderConfirmation = ({ order, onGoHome, onGoProducts, onGoAccount }) => {
 
   if (!displayedOrder) {
     return (
-      <div style={{ padding: "2rem" }}>
+      <div className={styles.container}>
         <h2>Pedido no disponible</h2>
         <p>No encontramos la información de la orden.</p>
         <button
           onClick={onGoHome}
-          style={{
-            marginTop: "1rem",
-            background: "#003366",
-            color: "#fff",
-            border: "none",
-            borderRadius: "6px",
-            padding: "10px 14px",
-            cursor: "pointer",
-          }}
+          className={`${styles.button} ${styles.primary}`}
+          style={{ marginTop: "1rem" }}
         >
           Ir al inicio
         </button>
@@ -42,65 +36,40 @@ const OrderConfirmation = ({ order, onGoHome, onGoProducts, onGoAccount }) => {
   }
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div className={styles.container}>
       <h2>Pedido confirmado</h2>
       <p>Gracias por tu compra. Tu orden fue registrada correctamente.</p>
 
-      <div
-        style={{
-          background: "#fff",
-          border: "1px solid #ddd",
-          borderRadius: "8px",
-          padding: "1rem",
-          marginTop: "1rem",
-        }}
-      >
-        <p style={{ margin: "0.2rem 0" }}>
+      <div className={styles.box}>
+        <p className={styles.line}>
           <strong>Número de pedido:</strong> {displayedOrder.id}
         </p>
-        <p style={{ margin: "0.2rem 0" }}>
+        <p className={styles.line}>
           <strong>Fecha:</strong>{" "}
           {new Date(displayedOrder.createdAt).toLocaleString()}
         </p>
-        <p style={{ margin: "0.2rem 0" }}>
+        <p className={styles.line}>
           <strong>Cliente:</strong> {displayedOrder.customer.fullName}
         </p>
-        <p style={{ margin: "0.2rem 0" }}>
+        <p className={styles.line}>
           <strong>Correo:</strong> {displayedOrder.customer.email}
         </p>
-        <p style={{ margin: "0.2rem 0" }}>
+        <p className={styles.line}>
           <strong>Envío:</strong>{" "}
           {SHIPPING_LABELS[displayedOrder.shippingMethod] ||
             displayedOrder.shippingMethod}
         </p>
-        <p style={{ margin: "0.2rem 0" }}>
+        <p className={styles.line}>
           <strong>Pago:</strong>{" "}
           {PAYMENT_LABELS[displayedOrder.paymentMethod] ||
             displayedOrder.paymentMethod}
         </p>
       </div>
 
-      <div
-        style={{
-          background: "#fff",
-          border: "1px solid #ddd",
-          borderRadius: "8px",
-          padding: "1rem",
-          marginTop: "1rem",
-        }}
-      >
+      <div className={styles.box}>
         <h3 style={{ marginTop: 0 }}>Productos</h3>
         {displayedOrder.items.map((item) => (
-          <div
-            key={item.product.id}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: "1rem",
-              padding: "0.4rem 0",
-              borderBottom: "1px solid #f0f0f0",
-            }}
-          >
+          <div key={item.product.id} className={styles.itemRow}>
             <span>
               {item.product.nombre} x {item.quantity}
             </span>
@@ -117,50 +86,22 @@ const OrderConfirmation = ({ order, onGoHome, onGoProducts, onGoAccount }) => {
         </p>
       </div>
 
-      <div
-        style={{
-          marginTop: "1rem",
-          display: "flex",
-          gap: "0.8rem",
-          flexWrap: "wrap",
-        }}
-      >
+      <div className={styles.actions}>
         <button
           onClick={onGoHome}
-          style={{
-            background: "#003366",
-            color: "#fff",
-            border: "none",
-            borderRadius: "6px",
-            padding: "10px 14px",
-            cursor: "pointer",
-          }}
+          className={`${styles.button} ${styles.primary}`}
         >
           Volver al inicio
         </button>
         <button
           onClick={onGoProducts}
-          style={{
-            background: "#0f7b0f",
-            color: "#fff",
-            border: "none",
-            borderRadius: "6px",
-            padding: "10px 14px",
-            cursor: "pointer",
-          }}
+          className={`${styles.button} ${styles.success}`}
         >
           Seguir comprando
         </button>
         <button
           onClick={() => (onGoAccount ? onGoAccount() : navigate("/account"))}
-          style={{
-            background: "#444",
-            color: "#fff",
-            border: "none",
-            borderRadius: "6px",
-            padding: "10px 14px",
-            cursor: "pointer",
-          }}
+          className={`${styles.button} ${styles.neutral}`}
         >
           Ver mis compras
         </button>

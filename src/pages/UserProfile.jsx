@@ -1,4 +1,6 @@
 import { getStoredOrders } from "../utils/ordersStorage";
+import { useAuth } from "../hooks/useAuth";
+import styles from "../styles/UserProfile.module.css";
 
 const mockUser = {
   name: "Daniel Torres",
@@ -8,62 +10,36 @@ const mockUser = {
 };
 
 const UserProfile = () => {
+  const { user } = useAuth();
   const orders = getStoredOrders();
 
+  const profileData = {
+    name: user?.fullName || mockUser.name,
+    email: user?.email || mockUser.email,
+    city: mockUser.city,
+    memberSince: mockUser.memberSince,
+  };
+
   return (
-    <section
-      style={{
-        background: "linear-gradient(135deg, #003366, #0f4c81)",
-        color: "white",
-        borderRadius: "16px",
-        padding: "1.5rem",
-        display: "grid",
-        gap: "1rem",
-        marginBottom: "1.5rem",
-      }}
-    >
+    <section className={styles.profile}>
       <div>
-        <p style={{ margin: 0, opacity: 0.8 }}>Mi cuenta</p>
-        <h2 style={{ margin: "0.35rem 0" }}>{mockUser.name}</h2>
-        <p style={{ margin: 0 }}>{mockUser.email}</p>
+        <p className={styles.label}>Mi cuenta</p>
+        <h2 className={styles.name}>{profileData.name}</h2>
+        <p className={styles.email}>{profileData.email}</p>
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: "0.75rem",
-        }}
-      >
-        <div
-          style={{
-            background: "rgba(255,255,255,0.12)",
-            borderRadius: "12px",
-            padding: "1rem",
-          }}
-        >
+      <div className={styles.grid}>
+        <div className={styles.card}>
           <strong>Ciudad</strong>
-          <p style={{ margin: "0.4rem 0 0" }}>{mockUser.city}</p>
+          <p className={styles.value}>{profileData.city}</p>
         </div>
-        <div
-          style={{
-            background: "rgba(255,255,255,0.12)",
-            borderRadius: "12px",
-            padding: "1rem",
-          }}
-        >
+        <div className={styles.card}>
           <strong>Miembro desde</strong>
-          <p style={{ margin: "0.4rem 0 0" }}>{mockUser.memberSince}</p>
+          <p className={styles.value}>{profileData.memberSince}</p>
         </div>
-        <div
-          style={{
-            background: "rgba(255,255,255,0.12)",
-            borderRadius: "12px",
-            padding: "1rem",
-          }}
-        >
+        <div className={styles.card}>
           <strong>Compras realizadas</strong>
-          <p style={{ margin: "0.4rem 0 0" }}>{orders.length}</p>
+          <p className={styles.value}>{orders.length}</p>
         </div>
       </div>
     </section>

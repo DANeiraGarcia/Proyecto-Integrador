@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { formatCOP } from "../utils/formatCOP";
+import styles from "../styles/OrderCard.module.css";
 
 const OrderCard = ({ order }) => {
   const itemCount = order.items.reduce(
@@ -8,47 +9,21 @@ const OrderCard = ({ order }) => {
   );
 
   return (
-    <article
-      style={{
-        background: "#fff",
-        border: "1px solid #ddd",
-        borderRadius: "12px",
-        padding: "1rem",
-        display: "grid",
-        gap: "0.5rem",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "1rem",
-        }}
-      >
+    <article className={styles.card}>
+      <div className={styles.top}>
         <div>
-          <h3 style={{ margin: 0 }}>Pedido {order.id}</h3>
-          <p style={{ margin: "0.25rem 0" }}>
+          <h3 className={styles.title}>Pedido {order.id}</h3>
+          <p className={styles.date}>
             {new Date(order.createdAt).toLocaleString()}
           </p>
         </div>
         <strong>{formatCOP(order.total)}</strong>
       </div>
 
-      <p style={{ margin: 0 }}>Productos: {itemCount}</p>
-      <p style={{ margin: 0 }}>Envío: {order.shippingMethod}</p>
+      <p className={styles.meta}>Productos: {itemCount}</p>
+      <p className={styles.meta}>Envío: {order.shippingMethod}</p>
 
-      <Link
-        to={`/account/orders/${order.id}`}
-        style={{
-          marginTop: "0.25rem",
-          textDecoration: "none",
-          background: "#003366",
-          color: "#fff",
-          padding: "0.7rem 1rem",
-          borderRadius: "8px",
-          width: "fit-content",
-        }}
-      >
+      <Link to={`/account/orders/${order.id}`} className={styles.link}>
         Ver detalle
       </Link>
     </article>

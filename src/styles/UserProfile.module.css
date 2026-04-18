@@ -1,0 +1,38 @@
+.profile {
+  background: linear-gradient(135deg, #003366, #0f4c81);
+  color: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  margin: 0;
+  opacity: 0.85;
+}
+
+.name {
+  margin: 0.35rem 0;
+}
+
+.email {
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.value {
+  margin: 0.4rem 0 0;
+}
