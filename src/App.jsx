@@ -48,6 +48,25 @@ function App() {
     );
   };
 
+  const handleUpdateQuantity = (productId, nextQuantity) => {
+    const quantity = Number(nextQuantity);
+
+    if (quantity <= 0) {
+      handleRemoveFromCart(productId);
+      return;
+    }
+
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.product.id === productId ? { ...item, quantity } : item,
+      ),
+    );
+  };
+
+  const handleClearCart = () => {
+    setCartItems([]);
+  };
+
   const renderPage = () => {
     switch (page) {
       case "home":
@@ -69,7 +88,12 @@ function App() {
         return <ProductList onAddToCart={handleAddToCart} />;
       case "cart":
         return (
-          <Cart cartItems={cartItems} onRemoveItem={handleRemoveFromCart} />
+          <Cart
+            cartItems={cartItems}
+            onRemoveItem={handleRemoveFromCart}
+            onUpdateQuantity={handleUpdateQuantity}
+            onClearCart={handleClearCart}
+          />
         );
       default:
         return (

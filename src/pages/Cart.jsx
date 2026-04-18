@@ -1,9 +1,19 @@
 import { formatCOP } from "../utils/formatCOP";
 
-const Cart = ({ cartItems = [], onRemoveItem }) => {
+const Cart = ({
+  cartItems = [],
+  onRemoveItem,
+  onUpdateQuantity,
+  onClearCart,
+}) => {
   const total = cartItems.reduce(
     (acc, item) =>
       acc + Number(item.product.precio || 0) * Number(item.quantity || 0),
+    0,
+  );
+
+  const totalUnits = cartItems.reduce(
+    (acc, item) => acc + Number(item.quantity || 0),
     0,
   );
 
@@ -31,9 +41,55 @@ const Cart = ({ cartItems = [], onRemoveItem }) => {
               >
                 <div>
                   <h3 style={{ margin: 0 }}>{item.product.nombre}</h3>
-                  <p style={{ margin: "0.3rem 0" }}>
-                    Cantidad: {item.quantity}
-                  </p>
+                  <div
+                    style={{
+                      margin: "0.3rem 0",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <span>Cantidad:</span>
+                    <button
+                      onClick={() =>
+                        onUpdateQuantity &&
+                        onUpdateQuantity(
+                          item.product.id,
+                          Number(item.quantity) - 1,
+                        )
+                      }
+                      style={{
+                        border: "1px solid #bbb",
+                        background: "#f6f6f6",
+                        borderRadius: "4px",
+                        width: "30px",
+                        height: "30px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      -
+                    </button>
+                    <strong>{item.quantity}</strong>
+                    <button
+                      onClick={() =>
+                        onUpdateQuantity &&
+                        onUpdateQuantity(
+                          item.product.id,
+                          Number(item.quantity) + 1,
+                        )
+                      }
+                      style={{
+                        border: "1px solid #bbb",
+                        background: "#f6f6f6",
+                        borderRadius: "4px",
+                        width: "30px",
+                        height: "30px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
                   <p style={{ margin: 0 }}>
                     Subtotal:{" "}
                     {formatCOP(
@@ -60,7 +116,35 @@ const Cart = ({ cartItems = [], onRemoveItem }) => {
             ))}
           </div>
 
-          <h3 style={{ marginTop: "1.5rem" }}>Total: {formatCOP(total)}</h3>
+          <div
+            style={{
+              marginTop: "1.5rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "1rem",
+              flexWrap: "wrap",
+            }}
+          >
+            <div>
+              <h3 style={{ margin: 0 }}>Total: {formatCOP(total)}</h3>
+              <p style={{ margin: "0.4rem 0 0 0" }}>Unidades: {totalUnits}</p>
+            </div>
+
+            <button
+              onClick={() => onClearCart && onClearCart()}
+              style={{
+                background: "#444",
+                color: "#fff",
+                border: "none",
+                borderRadius: "6px",
+                padding: "10px 14px",
+                cursor: "pointer",
+              }}
+            >
+              Vaciar carrito
+            </button>
+          </div>
         </>
       )}
     </div>
