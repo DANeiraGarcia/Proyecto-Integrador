@@ -5,6 +5,7 @@ const Cart = ({
   onRemoveItem,
   onUpdateQuantity,
   onClearCart,
+  onProceedToCheckout,
 }) => {
   const total = cartItems.reduce(
     (acc, item) =>
@@ -131,19 +132,34 @@ const Cart = ({
               <p style={{ margin: "0.4rem 0 0 0" }}>Unidades: {totalUnits}</p>
             </div>
 
-            <button
-              onClick={() => onClearCart && onClearCart()}
-              style={{
-                background: "#444",
-                color: "#fff",
-                border: "none",
-                borderRadius: "6px",
-                padding: "10px 14px",
-                cursor: "pointer",
-              }}
-            >
-              Vaciar carrito
-            </button>
+            <div style={{ display: "flex", gap: "0.7rem", flexWrap: "wrap" }}>
+              <button
+                onClick={() => onClearCart && onClearCart()}
+                style={{
+                  background: "#444",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "6px",
+                  padding: "10px 14px",
+                  cursor: "pointer",
+                }}
+              >
+                Vaciar carrito
+              </button>
+              <button
+                onClick={() => onProceedToCheckout && onProceedToCheckout()}
+                style={{
+                  background: "#003366",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "6px",
+                  padding: "10px 14px",
+                  cursor: "pointer",
+                }}
+              >
+                Proceder al checkout
+              </button>
+            </div>
           </div>
         </>
       )}

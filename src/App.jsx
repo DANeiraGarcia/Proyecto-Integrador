@@ -4,8 +4,11 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import ProductList from "./pages/ProductList";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import OrderConfirmation from "./pages/OrderConfirmation";
 import CategoryProducts from "./pages/CategoryProducts"; // <-- IMPORTAR
 import { getStoredCart, saveCart } from "./utils/cartStorage";
+import { addOrder } from "./utils/ordersStorage";
 import "./App.css";
 
 function App() {
@@ -13,6 +16,7 @@ function App() {
   // Nuevo estado para saber qué categoría mostrar
   const [activeCategory, setActiveCategory] = useState(null);
   const [cartItems, setCartItems] = useState(() => getStoredCart());
+  const [latestOrder, setLatestOrder] = useState(null);
 
   useEffect(() => {
     saveCart(cartItems);
@@ -67,6 +71,38 @@ function App() {
     setCartItems([]);
   };
 
+  const handleProceedToCheckout = () => {
+    setPage("checkout");
+  };
+
+  const handleConfirmOrder = ({
+    customer,
+    shippingMethod,
+    paymentMethod,
+    shippingCost,
+    subtotal,
+    total,
+  }) => {
+    if (!cartItems.length) return;
+
+    const order = {
+      id: `ORD-${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      customer,
+      items: cartItems,
+      shippingMethod,
+      paymentMethod,
+      shippingCost,
+      subtotal,
+      total,
+    };
+
+    addOrder(order);
+    setLatestOrder(order);
+    handleClearCart();
+    setPage("order-confirmation");
+  };
+
   const renderPage = () => {
     switch (page) {
       case "home":
@@ -93,6 +129,23 @@ function App() {
             onRemoveItem={handleRemoveFromCart}
             onUpdateQuantity={handleUpdateQuantity}
             onClearCart={handleClearCart}
+            onProceedToCheckout={handleProceedToCheckout}
+          />
+        );
+      case "checkout":
+        return (
+          <Checkout
+            cartItems={cartItems}
+            onBackToCart={() => setPage("cart")}
+            onConfirmOrder={handleConfirmOrder}
+          />
+        );
+      case "order-confirmation":
+        return (
+          <OrderConfirmation
+            order={latestOrder}
+            onGoHome={() => setPage("home")}
+            onGoProducts={() => setPage("products")}
           />
         );
       default:
