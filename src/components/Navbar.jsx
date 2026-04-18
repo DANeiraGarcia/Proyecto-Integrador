@@ -1,15 +1,23 @@
-import styles from '../styles/Navbar.module.css';
+import styles from "../styles/Navbar.module.css";
 
-const Navbar = ({ setPage }) => {
+const Navbar = ({ setPage, cartCount }) => {
   return (
     <nav className={styles.nav}>
       <div className={styles.logo}>
-        <span onClick={() => setPage('home')} className={styles.link}>MI TIENDA TECH</span>
+        <span onClick={() => setPage("home")} className={styles.link}>
+          MI TIENDA TECH
+        </span>
       </div>
       <ul className={styles.menu}>
-        <li onClick={() => setPage('home')} className={styles.link}>Inicio</li>
-        <li onClick={() => setPage('products')} className={styles.link}>Productos</li>
-        <li onClick={() => setPage('cart')} className={styles.link}>Carrito</li>
+        <li onClick={() => setPage("home")} className={styles.link}>
+          Inicio
+        </li>
+        <li onClick={() => setPage("products")} className={styles.link}>
+          Productos
+        </li>
+        <li onClick={() => setPage("cart")} className={styles.link}>
+          Carrito ({cartCount || 0})
+        </li>
       </ul>
       <button className={styles.auth}>Ingresar</button>
     </nav>
