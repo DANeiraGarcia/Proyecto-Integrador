@@ -62,3 +62,20 @@ En esta fase se migro la navegacion basada en estado a rutas reales con `react-r
 
 - `carrito_tienda`: conserva el carrito al recargar.
 - `ordenes_tienda`: almacena pedidos confirmados.
+
+## Semana 09 - Mi cuenta y pedidos guardados
+
+En esta fase se agrego una seccion de cuenta para consultar compras anteriores sin afectar el flujo de carrito y checkout.
+
+### Rutas de cuenta
+
+- `/account` -> Perfil mock y listado de pedidos
+- `/account/orders/:orderId` -> Detalle de una compra
+
+### Funcionalidades
+
+- Acceso a Mi cuenta desde el navbar.
+- Perfil mock con datos basicos del usuario.
+- Recuperacion de ordenes desde `localStorage`.
+- Detalle de pedido con `react-router-dom`.
+- Consulta de compras anteriores sin romper carrito ni checkout.
