@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -12,9 +13,7 @@ import { addOrder } from "./utils/ordersStorage";
 import "./App.css";
 
 function App() {
-  const [page, setPage] = useState("home");
-  // Nuevo estado para saber qué categoría mostrar
-  const [activeCategory, setActiveCategory] = useState(null);
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState(() => getStoredCart());
   const [latestOrder, setLatestOrder] = useState(null);
 
@@ -22,10 +21,8 @@ function App() {
     saveCart(cartItems);
   }, [cartItems]);
 
-  // Función para navegar a una categoría específica
   const navigateToCategory = (cat) => {
-    setActiveCategory(cat);
-    setPage("category");
+    navigate(`/category/${encodeURIComponent(cat)}`);
   };
 
   const handleAddToCart = (product) => {
@@ -72,7 +69,7 @@ function App() {
   };
 
   const handleProceedToCheckout = () => {
-    setPage("checkout");
+    navigate("/checkout");
   };
 
   const handleConfirmOrder = ({
@@ -100,70 +97,68 @@ function App() {
     addOrder(order);
     setLatestOrder(order);
     handleClearCart();
-    setPage("order-confirmation");
-  };
-
-  const renderPage = () => {
-    switch (page) {
-      case "home":
-        return (
-          <Home
-            onCategoryClick={navigateToCategory}
-            onAddToCart={handleAddToCart}
-          />
-        );
-      case "category":
-        return (
-          <CategoryProducts
-            category={activeCategory}
-            onBack={() => setPage("home")}
-            onAddToCart={handleAddToCart}
-          />
-        );
-      case "products":
-        return <ProductList onAddToCart={handleAddToCart} />;
-      case "cart":
-        return (
-          <Cart
-            cartItems={cartItems}
-            onRemoveItem={handleRemoveFromCart}
-            onUpdateQuantity={handleUpdateQuantity}
-            onClearCart={handleClearCart}
-            onProceedToCheckout={handleProceedToCheckout}
-          />
-        );
-      case "checkout":
-        return (
-          <Checkout
-            cartItems={cartItems}
-            onBackToCart={() => setPage("cart")}
-            onConfirmOrder={handleConfirmOrder}
-          />
-        );
-      case "order-confirmation":
-        return (
-          <OrderConfirmation
-            order={latestOrder}
-            onGoHome={() => setPage("home")}
-            onGoProducts={() => setPage("products")}
-          />
-        );
-      default:
-        return (
-          <Home
-            onCategoryClick={navigateToCategory}
-            onAddToCart={handleAddToCart}
-          />
-        );
-    }
+    navigate("/order-confirmation");
   };
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <div className="app-container">
-      <Header setPage={setPage} cartCount={cartCount} />
-      <main className="main-content">{renderPage()}</main>
+      <Header cartCount={cartCount} />
+      <main className="main-content">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home
+                onCategoryClick={navigateToCategory}
+                onAddToCart={handleAddToCart}
+              />
+            }
+          />
+          <Route
+            path="/products"
+            element={<ProductList onAddToCart={handleAddToCart} />}
+          />
+          <Route
+            path="/category/:categoryName"
+            element={<CategoryProducts onAddToCart={handleAddToCart} />}
+          />
+          <Route
+            path="/cart"
+            element={
+              <Cart
+                cartItems={cartItems}
+                onRemoveItem={handleRemoveFromCart}
+                onUpdateQuantity={handleUpdateQuantity}
+                onClearCart={handleClearCart}
+                onProceedToCheckout={handleProceedToCheckout}
+              />
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <Checkout
+                cartItems={cartItems}
+                onBackToCart={() => navigate("/cart")}
+                onConfirmOrder={handleConfirmOrder}
+              />
+            }
+          />
+          <Route
+            path="/order-confirmation"
+            element={
+              <OrderConfirmation
+                order={latestOrder}
+                onGoHome={() => navigate("/")}
+                onGoProducts={() => navigate("/products")}
+              />
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
       <Footer />
     </div>
   );
