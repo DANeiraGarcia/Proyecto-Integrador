@@ -1,5 +1,5 @@
 🛠️ Sistema de Ventas - Proyecto Integrador (Semana 05)
-Este proyecto es una plataforma de E-commerce desarrollada en React + Vite, enfocada en la gestión y visualización de productos tecnológicos (Gaming, Hardware y Periféricos).
+Este proyecto es una plataforma de E-commerce desarrollada en React + Vite, enfocada en la gestión y visualización de productos tecnológicos .
 
 🚀 Funcionalidades Implementadas (Semana 05)
 En esta fase, se transformó la estructura plana del sitio en una experiencia de usuario dinámica y organizada por categorías.
