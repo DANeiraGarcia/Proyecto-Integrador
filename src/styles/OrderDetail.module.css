@@ -1,0 +1,56 @@
+.container {
+  padding: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.muted {
+  margin: 0;
+  opacity: 0.75;
+}
+
+.title {
+  margin: 0.25rem 0;
+}
+
+.section {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.customer {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.customer p {
+  margin: 0;
+}
+
+.items {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 0.5rem;
+}
+
+.summary p {
+  margin: 0.35rem 0;
+}
+
+.back {
+  width: fit-content;
+  background: #0f7b0f;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  padding: 10px 14px;
+}

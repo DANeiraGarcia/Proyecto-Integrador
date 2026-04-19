@@ -1,0 +1,36 @@
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.title {
+  margin: 0;
+}
+
+.date {
+  margin: 0.25rem 0;
+}
+
+.meta {
+  margin: 0;
+}
+
+.link {
+  margin-top: 0.25rem;
+  text-decoration: none;
+  background: #003366;
+  color: #fff;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  width: fit-content;
+}

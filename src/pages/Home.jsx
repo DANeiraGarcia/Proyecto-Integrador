@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import { getStoredProducts } from '../utils/productsStorage';
-import ProductCard from '../components/ProductCard';
-import ProductDetailsModal from '../components/ProductDetailsModal';
-import styles from '../styles/Home.module.css';
+import { useState } from "react";
+import { getStoredProducts } from "../utils/productsStorage";
+import ProductCard from "../components/ProductCard";
+import ProductDetailsModal from "../components/ProductDetailsModal";
+import styles from "../styles/Home.module.css";
 
 // Recibimos onCategoryClick desde App.jsx para la navegación
-const Home = ({ onCategoryClick }) => {
+const Home = ({ onCategoryClick, onAddToCart }) => {
   const products = getStoredProducts();
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   // 1. Extraemos las categorías únicas (ej: Gaming, Periféricos, Hardware)
-  const categories = [...new Set(products.map(p => p.categoria))];
+  const categories = [...new Set(products.map((p) => p.categoria))];
 
   // 2. Función para obtener productos destacados por categoría (Top 4 por Rating)
   const getProductsByCategory = (cat) => {
     return products
-      .filter(p => p.categoria === cat)
+      .filter((p) => p.categoria === cat)
       .sort((a, b) => b.rating - a.rating) // Ordenamos: los mejores primero
       .slice(0, 4); // Solo mostramos los 4 más destacados en el Home
   };
@@ -29,31 +29,33 @@ const Home = ({ onCategoryClick }) => {
 
       {/* Modal que se dispara al hacer clic en ver detalles de cualquier tarjeta */}
       {selectedProduct && (
-        <ProductDetailsModal 
-          product={selectedProduct} 
-          onClose={() => setSelectedProduct(null)} 
+        <ProductDetailsModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+          onAddToCart={onAddToCart}
         />
       )}
 
-      {categories.map(category => (
+      {categories.map((category) => (
         <section key={category} className={styles.categorySection}>
           <div className={styles.categoryHeader}>
             <h2>{category}</h2>
             {/* Este botón ahora activa la navegación a la página de categoría */}
-            <button 
+            <button
               className={styles.viewMoreBtn}
               onClick={() => onCategoryClick(category)}
             >
               Ver todo en {category}
             </button>
           </div>
-          
+
           <div className={styles.productsGrid}>
-            {getProductsByCategory(category).map(product => (
-              <ProductCard 
-                key={product.id} 
+            {getProductsByCategory(category).map((product) => (
+              <ProductCard
+                key={product.id}
                 product={product}
                 onShowDetails={() => setSelectedProduct(product)}
+                onAddToCart={onAddToCart}
                 // No pasamos onEdit ni onDelete aquí para mantener el Home limpio
               />
             ))}
