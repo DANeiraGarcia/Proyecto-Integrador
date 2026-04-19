@@ -76,7 +76,7 @@ const Register = () => {
         </label>
 
         <label className={styles.field}>
-          Contrasena
+          Contraseña
           <input
             type="password"
             name="password"
@@ -88,7 +88,7 @@ const Register = () => {
         </label>
 
         <label className={styles.field}>
-          Confirmar contrasena
+          Confirmar contraseña
           <input
             type="password"
             name="confirmPassword"
